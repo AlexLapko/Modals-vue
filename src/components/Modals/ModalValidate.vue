@@ -1,7 +1,7 @@
 <template>
   <Modal
     title="Modal fith form + Validate"
-    @close="$emit('close')"
+    @close="resetModal"
   >
     <div slot="body">
       <form @submit.prevent="onSubmit">
@@ -17,6 +17,17 @@
           <p class="error-text" v-if="!$v.email.email">Email is not correct!</p>
           <input v-model="email" :class="{ error : $v.email.$error }" @change="$v.email.$touch()"> 
         </div>
+        <div class="form-item" :class="{ 'error-input' : $v.password.$error }">
+          <label>Password:</label>
+          <p class="error-text" v-if="!$v.password.required">Field is required!</p>
+          <p class="error-text" v-if="!$v.password.minLength">Password must have at least {{ $v.password.$params.minLength.min }} letters!</p>
+          <input type="password" v-model="password" :class="{ error : $v.password.$error }" @change="$v.password.$touch()"> 
+        </div>
+        <div class="form-item" :class="{ 'error-input' : $v.repeatPassword.$error }">
+          <label>Repeat password:</label>
+          <p class="error-text" v-if="!$v.repeatPassword.sameAsPassword">Passwords must be identical.</p>
+          <input type="password" v-model="repeatPassword" :class="{ error : $v.repeatPassword.$error }" @change="$v.password.$touch()"> 
+        </div>
         <button class="btn btnPrimary">Submit!</button>
       </form>
     </div>
@@ -24,9 +35,9 @@
 </template>
 
 <script>
-import { required, minLength, email } from 'vuelidate/lib/validators'
+import { required, minLength, email, sameAs } from 'vuelidate/lib/validators'
 
-import Modal from "./UI/Modal"
+import Modal from "../UI/Modal"
 
 export default {
   components: { Modal },
@@ -34,6 +45,8 @@ export default {
     return {
       name: '',
       email: '',
+      password: '',
+      repeatPassword: ''
     }
   },
   validations: {
@@ -44,6 +57,13 @@ export default {
     email: {
       required,
       email
+    },
+    password: {
+      required,
+      minLength: minLength(6)
+    },
+    repeatPassword: {
+      sameAsPassword: sameAs('password')
     }
   },
   methods: {
@@ -52,15 +72,26 @@ export default {
       if(!this.$v.$invalid) {
         const user = {
           name: this.name,
-          email: this.email
+          email: this.email,
+          password: this.password
         }
         console.log(user)
 
         this.name = ''
         this.email = ''
+        this.password = ''
+        this.repeatPassword = ''
         this.$v.$reset()
         this.$emit('close')
       }
+    },
+    resetModal() {
+      this.name = ''
+      this.email = ''
+      this.password = ''
+      this.repeatPassword = ''
+      this.$v.$reset()
+      this.$emit('close')
     }
   }
   
