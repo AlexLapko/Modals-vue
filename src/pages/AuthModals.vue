@@ -3,28 +3,22 @@
     <section>
       <div class="container">
 
-        <button class="btn btnPrimary" @click="modalSecond.show = true">Show modal with form</button>
-        <button class="btn btnPrimary" @click="modalValidate = true">Show modal with form + validation</button>
+        <button class="btn btnPrimary" @click="authorization = true">Authorization</button>
+        <button class="btn btnPrimary" @click="registration = true">Registration</button>
 
-        <!-- Second modal -->
-        <Modal
-          title="Modal fith form"
-          v-show="modalSecond.show"
-          @close="modalSecond.show = false"
-        >
-          <div slot="body">
-            <form @submit.prevent="submitSecondForm">
-              <label>Name:</label>
-              <input type="text" required v-model="modalSecond.name">
-              <label>Email:</label>
-              <input type="email" required v-model="modalSecond.email">
-              <button class="btn btnPrimary">Submit!</button>
-            </form>
-          </div>
-        </Modal>
+        <!-- Authorization modal -->
+        <AuthorizationModal 
+          v-show="authorization" 
+          @close="authorization = false" 
+          @togglePopup="authorization = false, registration = true"
+        />
 
-        <!-- Modal with validate -->
-        <ModalValidate v-show="modalValidate" @close="modalValidate = false"/>
+        <!-- Registration modal -->
+        <RegistrationModal 
+          v-show="registration" 
+          @close="registration = false" 
+          @togglePopup="authorization = true, registration = false"
+        />
 
       </div>
     </section>
@@ -33,35 +27,20 @@
 
 <script>
 import Modal from "../components/UI/Modal"
-import ModalValidate from "../components/Modals/ModalValidate"
+import AuthorizationModal from '../components/AuthModals/AuthorizationModal'
+import RegistrationModal from "../components/AuthModals/RegistrationModal"
 
 export default {
-  components: { Modal, ModalValidate },
+  components: { Modal, AuthorizationModal, RegistrationModal },
 
   data() {
     return {
-      modalSecond: {
-        show: false,
-        name: '',
-        email: ''
-      },
-      modalValidate: false,
+      authorization: false,
+      registration: false,
     }
   },
-  methods: {
-    submitSecondForm() {
-      console.log({
-        name: this.modalSecond.name,
-        email: this.modalSecond.email,
-      });
-      this.modalSecond.name = ''
-      this.modalSecond.email = ''
-      this.modalSecond.show = false
-    },
-  }
 }
 </script>
-
 
 <style lang="scss" scoped>
   .container {
