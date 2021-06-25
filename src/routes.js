@@ -6,6 +6,7 @@ Vue.use(Router)
 import Home from './pages/Home'
 import Modals from './pages/Modals'
 import AuthModals from './pages/AuthModals'
+import NotFound from './pages/404'
 
 export default new Router ({
   mode: 'history',
@@ -24,6 +25,11 @@ export default new Router ({
       path: '/auth',
       name: 'authModals',
       component: AuthModals
+    },
+    {
+      path: '*',
+      name: 'notFound',
+      component: NotFound
     }
   ]
 })
