@@ -3,21 +3,21 @@
     <section>
       <div class="container">
 
-        <button class="btn btnPrimary" @click="authorization = true">Authorization</button>
-        <button class="btn btnPrimary" @click="registration = true">Registration</button>
+        <button class="btn btnPrimary" @click="auth.login = true">Login</button>
+        <button class="btn btnPrimary" @click="auth.registration = true">Registration</button>
 
         <!-- Authorization modal -->
-        <AuthorizationModal 
-          v-show="authorization" 
-          @close="authorization = false" 
-          @togglePopup="authorization = false, registration = true"
+        <Login 
+          v-show="auth.login" 
+          @close="auth.login = false" 
+          @togglePopup="auth.login = false, auth.registration = true"
         />
 
         <!-- Registration modal -->
-        <RegistrationModal 
-          v-show="registration" 
-          @close="registration = false" 
-          @togglePopup="authorization = true, registration = false"
+        <Registration 
+          v-show="auth.registration" 
+          @close="auth.registration = false" 
+          @togglePopup="auth.login = true, auth.registration = false"
         />
 
       </div>
@@ -27,16 +27,20 @@
 
 <script>
 import Modal from "../components/UI/Modal"
-import AuthorizationModal from '../components/AuthModals/AuthorizationModal'
-import RegistrationModal from "../components/AuthModals/RegistrationModal"
+import Login from '../components/AuthModals/Login'
+import Registration from "../components/AuthModals/Registration"
 
 export default {
-  components: { Modal, AuthorizationModal, RegistrationModal },
+  components: { Modal, Login, Registration },
 
   data() {
     return {
-      authorization: false,
-      registration: false,
+      auth: {
+        login:false, 
+        registration: false
+      }
+      // authorization: false,
+      // registration: false,
     }
   },
 }

@@ -23,8 +23,8 @@
 
 <script>
 import Modal from "../components/UI/Modal"
-import FirstModal from '../components/Modals/FirstModal'
-import SecondModal from '../components/Modals/SecondModal'
+import FirstModal from "../components/Modals/FirstModal"
+import SecondModal from "../components/Modals/SecondModal"
 import ModalValidate from "../components/Modals/ModalValidate"
 
 export default {

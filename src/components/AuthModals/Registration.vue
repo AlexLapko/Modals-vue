@@ -67,11 +67,7 @@ export default {
         }
         console.log(user)
 
-        this.email = ''
-        this.password = ''
-        this.repeatPassword = ''
-        this.$v.$reset()
-        this.$emit('close')
+        this.resetModal()
       }
     },
     resetModal() {

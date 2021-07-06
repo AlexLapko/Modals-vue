@@ -54,11 +54,8 @@ export default {
           password: this.password
         }
         console.log(user)
-
-        this.email = ''
-        this.password = ''
-        this.$v.$reset()
-        this.$emit('close')
+        
+        this.resetModal()
       }
     },
     resetModal() {
